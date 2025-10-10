@@ -4,15 +4,16 @@
  */
 package com.luizfrancisco.biblioteca.view;
 
+import com.luizfrancisco.biblioteca.dao.UsuarioDAO;
+
 /**
  *
  * @author User
  */
 public class LoginView extends javax.swing.JFrame {
 
-    /**
-     * Creates new form LoginView
-     */
+    private UsuarioDAO usuarioDAO = new UsuarioDAO();
+    
     public LoginView() {
         initComponents();
         setLocationRelativeTo(this);
@@ -30,9 +31,9 @@ public class LoginView extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        txtLogin = new javax.swing.JTextField();
+        psfSenha = new javax.swing.JPasswordField();
+        btnLogar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -41,16 +42,21 @@ public class LoginView extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("LOGIN");
 
-        jTextField1.setBackground(new java.awt.Color(242, 242, 229));
-        jTextField1.setBorder(javax.swing.BorderFactory.createTitledBorder("Login"));
+        txtLogin.setBackground(new java.awt.Color(242, 242, 229));
+        txtLogin.setBorder(javax.swing.BorderFactory.createTitledBorder("Login"));
 
-        jPasswordField1.setBackground(new java.awt.Color(242, 242, 229));
-        jPasswordField1.setBorder(javax.swing.BorderFactory.createTitledBorder("Senha"));
+        psfSenha.setBackground(new java.awt.Color(242, 242, 229));
+        psfSenha.setBorder(javax.swing.BorderFactory.createTitledBorder("Senha"));
 
-        jButton1.setBackground(new java.awt.Color(242, 242, 229));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(102, 102, 102));
-        jButton1.setText("Logar");
+        btnLogar.setBackground(new java.awt.Color(242, 242, 229));
+        btnLogar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnLogar.setForeground(new java.awt.Color(102, 102, 102));
+        btnLogar.setText("Logar");
+        btnLogar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -64,11 +70,11 @@ public class LoginView extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(92, 92, 92)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(psfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(145, 145, 145)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnLogar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(110, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -77,11 +83,11 @@ public class LoginView extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(psfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnLogar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
@@ -98,6 +104,26 @@ public class LoginView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogarActionPerformed
+       String login  = txtLogin.getText();
+       String senha = String.valueOf(psfSenha.getPassword());
+       
+       try{
+           if(usuarioDAO.checarUsuario(login, senha)){
+               
+               int id = usuarioDAO.retornarId(login, senha);
+               System.out.println("Login efetuado com sucesso");
+               new PrincipalView(id).setVisible(true);
+               this.dispose();
+           }else{
+               System.out.println("Email ou senha incorretos");
+           }
+       }catch (Exception e){
+           System.out.println("Erro ao procurar usuário -> " + e);
+       }
+       
+    }//GEN-LAST:event_btnLogarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -135,10 +161,10 @@ public class LoginView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnLogar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPasswordField psfSenha;
+    private javax.swing.JTextField txtLogin;
     // End of variables declaration//GEN-END:variables
 }

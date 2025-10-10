@@ -13,7 +13,7 @@ import java.sql.SQLException;
  * @author User
  */
 public class ConexaoDB {
-    private static final String URL = "jdbc:myslq;//localhost:3306/db_biblioteca_progIII";
+    private static final String URL = "jdbc:mysql://localhost:3306/db_biblioteca_progiii";
     private static final String USUARIO  = "root";
     private static final String SENHA = "root";
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";

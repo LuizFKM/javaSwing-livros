@@ -43,14 +43,14 @@ public class UsuarioDAO {
         return usuarioLogado;
     }
     
-    public int retornarId(String email, String senha) throws SQLException{
+    public int retornarId(String login, String senha) throws SQLException{
         con = ConexaoDB.getConexao();
         
-        String sql = "SELECT id FROM tb_usuarios WHERE email = ? AND senha = ?";
+        String sql = "SELECT id FROM tb_usuario WHERE login = ? AND senha = ?";
         
         try{
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, email);
+            ps.setString(1, login);
             ps.setString(2, senha);
             
             ResultSet rs = ps.executeQuery();
