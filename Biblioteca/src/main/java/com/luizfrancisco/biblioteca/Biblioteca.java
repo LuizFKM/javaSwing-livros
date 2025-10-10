@@ -4,6 +4,8 @@
 
 package com.luizfrancisco.biblioteca;
 
+import com.luizfrancisco.biblioteca.view.LoginView;
+
 /**
  *
  * @author User
@@ -11,6 +13,7 @@ package com.luizfrancisco.biblioteca;
 public class Biblioteca {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        LoginView l = new LoginView();
+        l.setVisible(true);
     }
 }
