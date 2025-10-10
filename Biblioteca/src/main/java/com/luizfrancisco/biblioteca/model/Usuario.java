@@ -12,7 +12,7 @@ public class Usuario {
     public int id;
     public String login;
     public String senha;
-
+    
     public Usuario(int id, String login, String senha) {
         this.id = id;
         this.login = login;
