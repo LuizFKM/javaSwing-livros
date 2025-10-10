@@ -19,16 +19,15 @@ import java.util.ArrayList;
 public class LivroDAO {
     private Connection con;
     
-    public ArrayList<Livros> retornaListaDeLivros(int idUsuario) throws SQLException{
+    public ArrayList<Livros> retornaListaDeLivros() throws SQLException{
         con = ConexaoDB.getConexao();
         
-        String sql = "SELECT * FROM tb_tarefas WHERE usuario_id = ?";
+        String sql = "SELECT * FROM tb_livros";
         
         ArrayList<Livros> listaDeLivros = new ArrayList<>();
         
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, idUsuario);
             
             ResultSet rs = ps.executeQuery();
             
@@ -73,10 +72,10 @@ public class LivroDAO {
        }
  }
        
-       public void editarTarefa(Livros l, int id) throws SQLException{
+       public void editarLivro(Livros l, int id) throws SQLException{
            con = ConexaoDB.getConexao();
            
-           String sql = "UP tb_livros SET nome = ?, editora = ?, ano = ?, isDisponivel = ?, WHERE id = ?";
+           String sql = "UPDATE tb_livros SET nome = ?, editora = ?, ano = ?, isDisponivel = ? WHERE id = ?";
            
            try {
                PreparedStatement ps = con.prepareStatement(sql);
@@ -84,6 +83,7 @@ public class LivroDAO {
                ps.setString(2, l.getEditora());
                ps.setString(3, l.getAno());
                ps.setBoolean(4, l.getIsDisponivel());
+               ps.setInt(5, id);
                
                ps.executeUpdate();
                
@@ -95,5 +95,24 @@ public class LivroDAO {
                System.out.println("Livro atualizado! Fechando conexão...");
         }
     }
+       
+       public void deletarLivro(int id) throws SQLException{
+           con = ConexaoDB.getConexao();
+           
+           String sql = "DELETE FROM tb_livros WHERE id = ?";
+           
+           try{
+               PreparedStatement ps = con.prepareStatement(sql);
+               ps.setInt(1, id);
+               
+               ps.executeUpdate();
+           }catch (SQLException e){
+               System.out.println("ERRO ao deletar livro -> " + e);
+           }finally{
+               con.close();
+               System.out.println("Fechando conexao ao deletar tarefa");
+           }
+       }
+     
 }
 
